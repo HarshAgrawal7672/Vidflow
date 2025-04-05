@@ -43,10 +43,10 @@ const userSchema=new mongoose.Schema({
         required:[true,"password is required"]
     },
     refreshToken:{
-        type:String,
+        type:String
     }
 
-},{timestamps})
+},{timestamps:true})
 
 userSchema.pre("save",async function (next){
     if(!this.isModified("password")) return next()

@@ -29,17 +29,23 @@ const registeruser= asyncHandler(async (req,res)=>{
         throw new ApiError(409,"Username or email already exists")
     }
     
-    const avatarLocalPath=req.files?.avatar[0]?.path;
-    const coverImageLocalPath=req.files?.coverImage[0]?.path;
-    if(!avatarLocalPath){
-        throw new ApiError(400,"Avatar is required")
-    }
 
+    const avatarLocalPath=await req.files['avatar']?.[0]?.path;
+    // const coverImageLocalPath=await req.files['coverImage']?.[0]?.path;
+    let coverImageLocalPath;
+    if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+        coverImageLocalPath = req.files.coverImage[0].path
+    }
+    
+    if(!avatarLocalPath){
+        throw new ApiError(400,"Avatar is required no local")
+    }
+console.log(avatarLocalPath)
     const avatar=await uploadonCloudinary(avatarLocalPath);
     const coverImage=await uploadonCloudinary(coverImageLocalPath)
-
+    
     if(!avatar) {
-        throw new ApiError(400,"Avatar is required")
+        throw new ApiError(400,"Avatar is required ??")
 
     }
 
@@ -53,7 +59,7 @@ const registeruser= asyncHandler(async (req,res)=>{
         coverImage:coverImage?.url || "",
    }) 
 
-   const createdUser=await User.findById(username._id).select(
+   const createdUser=await User.findById(user._id).select(
     "-password -refreshToken"
    )
 

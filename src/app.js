@@ -17,7 +17,7 @@ app.use(express.urlencoded({extended:true,
     limit:'30kb'  
 }))
 
-app.use(express.static('public'))
+app.use("/public",express.static('public'))
 app.use(cookieParser())
 
 
