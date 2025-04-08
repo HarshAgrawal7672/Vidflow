@@ -406,5 +406,6 @@ export {registeruser,
     getCurrentUser,
     updateUserProfile,
     updateUserAvatar,
-    updateUserCoverImage
+    updateUserCoverImage,
+    getUserChannelProfile
 }
